@@ -1,3 +1,20 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# This file is part of FSE 2017.
+#
+# FSE 2017 is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# FSE 2017 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with FSE 2017.  If not, see <http://www.gnu.org/licenses/>.
+
 # DataClient1.py
 import pygame
 from threading import Thread
@@ -7,6 +24,9 @@ VERBOSE = False
 IP_ADDRESS = "192.168.0.31"
 IP_PORT = 22000
 
+# TODO: Replace this with logging.debug. Easiest is like this:
+# >>> from logging import debug
+# Then you don't have to modify the code which calls this.
 def debug(text):
     if VERBOSE:
         print "Debug:---", text
@@ -50,6 +70,7 @@ def startReceiver():
     receiver = Receiver()
     receiver.start()
 
+# TODO: Escape need for global by passing in connection to send command to
 def sendCommand(cmd):
     debug("sendCommand() with cmd = " + cmd)
     try:
@@ -59,13 +80,19 @@ def sendCommand(cmd):
         debug("Exception in sendCommand()")
         closeConnection()
 
+# TODO: PEP8
 def closeConnection():
+    # TODO: No globals.
     global isConnected
     debug("Closing socket")
     sock.close()
+    # TODO: Don't set this here. Don't use globals. Set after closing socket
+    # in main.
     isConnected = False
 
+# TODO: Replace return False with exception
 def connect():
+    # TODO: No globals. Eliminate the need by returning it.
     global sock
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     debug("Connecting...")
@@ -91,6 +118,7 @@ if __name__ == "__main__":
 
 
         if connect():
+            # TODO: PEP8
             isConnected = True
             print "Connection established"
             time.sleep(1)

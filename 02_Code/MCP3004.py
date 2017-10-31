@@ -1,14 +1,31 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+# This file is part of FSE 2017.
+#
+# FSE 2017 is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# FSE 2017 is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with FSE 2017.  If not, see <http://www.gnu.org/licenses/>.
+
 import spidev
 import time
 import sys
 
+# TODO: Rename.
 class MCP3004():
-    """
-    Class to represent MCP3004 analog to digital Converter
-    """
+
+    """Class to represent MCP3004 analog to digital Converter"""
 
     def __init__(self):
+        # TODO: Make class attributes.
         # Voltage dividors 1kOhm/1kOhm (channel 0-2) - 22kOhm/10kOhm(channel 3)
         self._facCh012 = 2
         self._facCh3   = 3.195
@@ -16,6 +33,9 @@ class MCP3004():
         self._spi = spidev.SpiDev()
         self._spi.open(0,0)
 
+    # TODO: Move explanations into docstring, otherwise can't find on
+    # introspection.
+    # TODO: Only 1 preceding underscore.
     def __buildReadCommand(self,channel):
         startBit = 0x01
         singleEnded = 0x08
@@ -26,12 +46,17 @@ class MCP3004():
         #   3rd byte is 0x00
         return [startBit, (singleEnded + channel) <<4, 0x00] #[startBit,128,0x00]
 
+    # TODO: Only 1 preceding underscore.
+    # TODO: DRY, self._facCh* can be replaced by setting before, then less
+    # chances for error if something changes.
+    # TODO: Docstring
     def __processAdcValue(self,channel,result):
         if channel < 3:
             return (((result[1] & 3) << 8) + result[2])*0.00322*self._facCh012
         else:
             return (((result[1] & 3) << 8) + result[2])*0.00322*self._facCh3
 
+    # TODO: Rename, PEP8
     def readAdc(self,channel):
         """
         Read ADC channel(0,1,2,3)
@@ -40,6 +65,7 @@ class MCP3004():
         r = self._spi.xfer2(self.__buildReadCommand(channel)) #([1, 8 << 4, 0])
         return self.__processAdcValue(channel,r)
 
+    # TODO: Make this the exit method for context, make class context manager
     def exitMCP3004(self):
         self._spi.close()
 
