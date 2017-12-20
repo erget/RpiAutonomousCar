@@ -24,7 +24,7 @@ from threading import Thread
 
 import pygame
 
-IP_ADDRESS = "192.168.0.102"
+IP_ADDRESS = "fse2017-a"
 IP_PORT = 22000
 
 KEY_TEXT = {

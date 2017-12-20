@@ -3,6 +3,9 @@
 This repository contains all material needed in order to build the
 RpiAutonomousCar used in Full Stack Embedded's 2017 workshops.
 
+For more information about Full Stack Embedded, see
+https://fullstackembedded.com.
+
 ## The hardware
 
 The RpiAutonomousCar is a low-cost robotic car equipped with a Raspberry Pi for
